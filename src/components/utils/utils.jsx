@@ -1,10 +1,5 @@
 import Papa from "papaparse"
 
-// Returns true if x and y are within 1 of each other
-function isBalanced(x, y) {
-    const difference = x - y;
-    return Math.abs(difference) <= 1;
-}
 
 function calculateTotalPatients(patientList) {
     return patientList.observation.length + patientList.inpatient.length;
