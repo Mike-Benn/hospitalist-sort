@@ -4,9 +4,17 @@ import PatientListFormSection from "./PatientListFormSection";
 import GeneralButton from "../components/general/buttons/GeneralButton";
 import DoctorRolesFormSection from "./DoctorRolesFormSection";
 import { parseCsvFile, assignMedObsPatients } from "./utils/utils";
-
+import MedObsTallyTable from "./MedObsTallyTable";
+import MedObsChangesTable from "./MedObsChangesTable";
 
 function MedObsDashboard() {
+
+    const [uiState, setUiState] = useState({
+        viewMode: "editing",
+    })
+    const [physicianData, setPhysicianData] = useState({
+        medObs: {},
+    })
 
     const [physicianFormData, setPhysicianFormData] = useState({
         nursePractitionerOne: {
@@ -26,6 +34,8 @@ function MedObsDashboard() {
             },
         }
     })
+
+    
 
     const [csvFile, setCsvFile] = useState(null);
 
@@ -56,15 +66,27 @@ function MedObsDashboard() {
 
     const assignPatients = async (e) => {
         e.preventDefault();
+        setUiState((prev) => ({
+            ...prev,
+            viewMode: "loading"
+        }))
         // Sort patients by location, included locations: (med obs, )
         try {
             const patientList = await parseCsvFile(csvFile);
-            assignMedObsPatients(physicianFormData.nursePractitionerOne.name, physicianFormData.nursePractitionerTwo.name, patientList.medObs)
+            const medObsPhysicians = assignMedObsPatients(physicianFormData.nursePractitionerOne.name, physicianFormData.nursePractitionerTwo.name, patientList.medObs)
+            setPhysicianData((prev) => ({
+                ...prev,
+                medObs: medObsPhysicians,
+            }))
+            setUiState((prev) => ({
+                ...prev,
+                viewMode: "viewing"
+            }))
+
 
         } catch (error) {
             console.error("Failed to parse CSV file", error);
         }
-        
     }
 
     const patientListHandlers = {
@@ -74,13 +96,28 @@ function MedObsDashboard() {
     const physicianHandlers = {
         handlePhysicianNameChange,
     }
+    if (uiState.viewMode === "loading") return <p>Loading...</p>
+    let uiToRender;
+    if (uiState.viewMode === "editing") {
+        uiToRender = <form action="" onSubmit={assignPatients}>
+                        <DoctorRolesFormSection physicianFormData={physicianFormData} handlers={physicianHandlers} />
+                        <PatientListFormSection handlers={patientListHandlers} file={csvFile} />
+                        <GeneralButton buttonType="submit" buttonText="Assign Patients" />
+                    </form>
+    } else if (uiState.viewMode === "viewing") {
+        uiToRender = 
+        <>
+            <MedObsTallyTable physicians={physicianData.medObs} />
+            <hr />
+            <MedObsChangesTable physicians={physicianData.medObs} />
+        </>
+    }
 
     return (
-        <form action="" onSubmit={assignPatients}>
-            <DoctorRolesFormSection physicianFormData={physicianFormData} handlers={physicianHandlers} />
-            <PatientListFormSection handlers={patientListHandlers} file={csvFile} />
-            <GeneralButton buttonType="submit" buttonText="Assign Patients" />
-        </form>
+        <>
+            {uiToRender}
+        </>
+        
         
     )
 }
