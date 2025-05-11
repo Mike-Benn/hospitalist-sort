@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 
 function DateField({ fieldClass , fieldId , labelText , onChange , value , name}) {
     return (
@@ -81,73 +80,6 @@ function CheckboxField({ fieldClass, fieldId, labelText, onChange, checked, name
     )
 }
 
-CheckboxField.propTypes = {
-    fieldClass: PropTypes.string,
-    fieldId: PropTypes.string,
-    labelText: PropTypes.string,
-    onChange: PropTypes.func,
-    checked: PropTypes.bool,
-    name: PropTypes.string,
-
-}
-
-GeneralInputField.propTypes = {
-    inputType: PropTypes.string,
-    fieldClass: PropTypes.string,
-    fieldId: PropTypes.string,
-    labelText: PropTypes.string,
-    onChange: PropTypes.func,
-    value: PropTypes.string,
-    name: PropTypes.string,
-}
-
-PasswordField.propTypes = {
-   fieldClass: PropTypes.string,
-   fieldId: PropTypes.string,
-   labelText: PropTypes.string,
-   onChange: PropTypes.func,
-   value: PropTypes.string,
-}
-
-TextField.propTypes = {
-   fieldClass: PropTypes.string,
-   fieldId: PropTypes.string,
-   labelText: PropTypes.string,
-   onChange: PropTypes.func,
-   value: PropTypes.string,
-   name: PropTypes.string,
-}
-
-SelectField.propTypes = {
-    fieldClass: PropTypes.string,
-    fieldId: PropTypes.string,
-    labelText: PropTypes.string,
-    optionList: PropTypes.array,
-    onChange: PropTypes.func,
-    value: PropTypes.string,
-    optionTextAccessor: PropTypes.string,
-    optionIdAccessor: PropTypes.string,
-    name: PropTypes.string,
-    defaultOptions: PropTypes.array,
-}
-
-DateField.propTypes = {
-    fieldClass: PropTypes.string,
-    fieldId: PropTypes.string,
-    labelText: PropTypes.string,
-    onChange: PropTypes.func,
-    value: PropTypes.string,
-    name: PropTypes.string,
-}
-
-NumberField.propTypes = {
-    fieldClass: PropTypes.string,
-    fieldId: PropTypes.string,
-    labelText: PropTypes.string,
-    onChange: PropTypes.func,
-    value: PropTypes.string,
-    name: PropTypes.string,
-}
 
 
 
