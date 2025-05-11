@@ -15,7 +15,9 @@ function MedObsDashboard() {
     const [physicianData, setPhysicianData] = useState({
         medObs: {},
     })
-
+    const physicianDataTemplate = {
+        medObs: {},
+    }
     const [physicianFormData, setPhysicianFormData] = useState({
         nursePractitionerOne: {
             name: "",
@@ -35,7 +37,24 @@ function MedObsDashboard() {
         }
     })
 
-    
+    const physicianFormDataTemplate = {
+        nursePractitionerOne: {
+            name: "",
+            patientList: {
+                inpatient: [],
+                observation: [],
+            }
+            
+
+        },
+        nursePractitionerTwo: {
+            name: "",
+            patientList: {
+                inpatient: [],
+                observation: [],
+            },
+        }
+    }
 
     const [csvFile, setCsvFile] = useState(null);
 
@@ -62,6 +81,16 @@ function MedObsDashboard() {
         }
 
         setCsvFile(file);
+    }
+
+    const resetApplication = () => {
+        setUiState((prev) => ({
+            ...prev,
+            viewMode: "editing"
+        }))
+        setCsvFile(null);
+        setPhysicianFormData(physicianFormDataTemplate);
+        setPhysicianData(physicianDataTemplate);
     }
 
     const assignPatients = async (e) => {
@@ -107,6 +136,8 @@ function MedObsDashboard() {
     } else if (uiState.viewMode === "viewing") {
         uiToRender = 
         <>
+            <GeneralButton buttonType="button" buttonText="Reset" onClick={resetApplication}/>
+            <hr />
             <MedObsTallyTable physicians={physicianData.medObs} />
             <hr />
             <MedObsChangesTable physicians={physicianData.medObs} />

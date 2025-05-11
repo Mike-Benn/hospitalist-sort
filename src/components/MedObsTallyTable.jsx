@@ -14,6 +14,7 @@ function MedObsTallyTable({ physicians }) {
                 <th style={{ border: "1px solid black", padding: "4px" }}>Prior IP</th>
                 <th style={{ border: "1px solid black", padding: "4px" }}>New OV</th>
                 <th style={{ border: "1px solid black", padding: "4px" }}>New IP</th>
+                <th style={{ border: "1px solid black", padding: "4px" }}>Total Patients</th>
                 </tr>
             </thead>
             <tbody>
@@ -23,6 +24,7 @@ function MedObsTallyTable({ physicians }) {
                 <td style={{ border: "1px solid black", padding: "4px" }}>{npOneStats.priorInpatients}</td>
                 <td style={{ border: "1px solid black", padding: "4px" }}>{npOneStats.newObservations}</td>
                 <td style={{ border: "1px solid black", padding: "4px" }}>{npOneStats.newInpatients}</td>
+                <td style={{ border: "1px solid black", padding: "4px" }}>{npOneStats.totalPatients}</td>
                 </tr>
                 <tr>
                 <td style={{ border: "1px solid black", padding: "4px" }}>{physicians.nursePractitionerTwo.name}</td>
@@ -30,6 +32,7 @@ function MedObsTallyTable({ physicians }) {
                 <td style={{ border: "1px solid black", padding: "4px" }}>{npTwoStats.priorInpatients}</td>
                 <td style={{ border: "1px solid black", padding: "4px" }}>{npTwoStats.newObservations}</td>
                 <td style={{ border: "1px solid black", padding: "4px" }}>{npTwoStats.newInpatients}</td>
+                <td style={{ border: "1px solid black", padding: "4px" }}>{npTwoStats.totalPatients}</td>
                 </tr>
             </tbody>
         </table>

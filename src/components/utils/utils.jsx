@@ -198,12 +198,14 @@ function calculateMedObsPhysicianStats(physician) {
     let priorObservations = physician.patientList.prior.observation.length;
     let newInpatients = physician.patientList.new.inpatient.length;
     let newObservations = physician.patientList.new.observation.length;
+    let totalPatients = priorInpatients + priorObservations + newInpatients + newObservations;
 
     return {
         priorInpatients,
         priorObservations,
         newInpatients,
         newObservations,
+        totalPatients,
     }
 }
 
