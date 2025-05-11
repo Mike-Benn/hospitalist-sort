@@ -3,23 +3,41 @@ import Papa from "papaparse";
 import PatientListFormSection from "./PatientListFormSection";
 import GeneralButton from "../components/general/buttons/GeneralButton";
 import DoctorRolesFormSection from "./DoctorRolesFormSection";
+import { parseCsvFile, assignMedObsPatients } from "./utils/utils";
 
 
 function MedObsDashboard() {
 
-    const [practictionerFormData, setPractitionerFormData] = useState({
-        nursePractitionerOne: "",
-        nursePractitionerTwo: "",
+    const [physicianFormData, setPhysicianFormData] = useState({
+        nursePractitionerOne: {
+            name: "",
+            patientList: {
+                inpatient: [],
+                observation: [],
+            }
+            
+
+        },
+        nursePractitionerTwo: {
+            name: "",
+            patientList: {
+                inpatient: [],
+                observation: [],
+            },
+        }
     })
 
     const [csvFile, setCsvFile] = useState(null);
 
 
-    const handlePractitionerChange = (e) => {
+    const handlePhysicianNameChange = (e) => {
         const { name, value } = e.target;
-        setPractitionerFormData((prev) => ({
+        setPhysicianFormData((prev) => ({
             ...prev,
-            [name]: value,
+            [name]: {
+                ...prev,
+                name: value,
+            }
         }))
     }
 
@@ -36,36 +54,31 @@ function MedObsDashboard() {
         setCsvFile(file);
     }
 
-    const assignPatients = () => {
-        const filteredData = [];
-        Papa.parse(csvFile, {
-            header: true,
-            skipEmptyLines: true,
-            step: (row) => {
-              const data = row.data;
-          
-              if (data.medicalService === "Hospitalist") {
-                filteredData.push(data);
-              }
-            },
-            complete: () => {
-              console.log('Filtered Results:', filteredData);
-            },
-            error: (error) => {
-              console.error('Parsing error:', error);
-              alert('Failed to parse CSV.');
-            },
-          })
+    const assignPatients = async (e) => {
+        e.preventDefault();
+        // Sort patients by location, included locations: (med obs, )
+        try {
+            const patientList = await parseCsvFile(csvFile);
+            assignMedObsPatients(physicianFormData.nursePractitionerOne.name, physicianFormData.nursePractitionerTwo.name, patientList.medObs)
+
+        } catch (error) {
+            console.error("Failed to parse CSV file", error);
+        }
+        
     }
 
-    const practitionerHandlers = {
-        handlePractitionerChange,
+    const patientListHandlers = {
+        handleCsvFileChange,
+    }
+
+    const physicianHandlers = {
+        handlePhysicianNameChange,
     }
 
     return (
         <form action="" onSubmit={assignPatients}>
-            <DoctorRolesFormSection practitionerFormData={practictionerFormData} handlers={practitionerHandlers} />
-            <PatientListFormSection handlers={handleCsvFileChange} file={csvFile} />
+            <DoctorRolesFormSection physicianFormData={physicianFormData} handlers={physicianHandlers} />
+            <PatientListFormSection handlers={patientListHandlers} file={csvFile} />
             <GeneralButton buttonType="submit" buttonText="Assign Patients" />
         </form>
         

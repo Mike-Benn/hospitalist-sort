@@ -1,11 +1,11 @@
 import { GeneralInputField } from "../components/general/form-fields/InputFields"
 
-function DoctorRolesFormSection({ practitionerFormData, handlers }) {
+function DoctorRolesFormSection({ physicianFormData, handlers }) {
     return (
         <fieldset>
             <legend>Hospitalist NP</legend>
-            <GeneralInputField inputType="text" labelText="NP 1" onChange={handlers.handlePractitionerChange} value={practitionerFormData.practictionerOne} name="practitionerOne" />
-            <GeneralInputField inputType="text" labelText="NP 2" onChange={handlers.handlePractitionerChange} value={practitionerFormData.practictionerTwo} name="practitionerTwo" />
+            <GeneralInputField inputType="text" labelText="NP 1" onChange={handlers.handlePhysicianNameChange} value={physicianFormData.nursePractictionerOne} name="nursePractitionerOne" />
+            <GeneralInputField inputType="text" labelText="NP 2" onChange={handlers.handlePhysicianNameChange} value={physicianFormData.nursePractictionerTwo} name="nursePractitionerTwo" />
         </fieldset>
     )
 }
